@@ -30,4 +30,5 @@
 - they are in archive folder as .ipynb 
 - but they may not be efficient enough so you do not need to follow all the contents in those files
 - i just want simple, efficient, direct way to implement all those processes
+- never do random number sample
 
