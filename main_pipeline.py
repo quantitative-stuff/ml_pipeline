@@ -11,10 +11,19 @@ Usage:
 import argparse
 import os
 import sys
+import logging
 from typing import List
 
 # Add current directory to path for imports
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+# Configure logging
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    handlers=[
+                        logging.FileHandler("pipeline.log"),
+                        logging.StreamHandler()
+                    ])
 
 from pipeline import DataProcessor, FactorProcessor, ModelTrainer
 
@@ -27,62 +36,63 @@ def run_pipeline(start_date: str, end_date: str, models: List[str]):
         end_date: End date for data extraction  
         models: List of model names to train
     """
-    print("🚀 Starting Stock Return Prediction Pipeline")
-    print("=" * 50)
+    logging.info("Starting Stock Return Prediction Pipeline")
+    logging.info(f"Data period: {start_date} to {end_date}")
+    logging.info("=" * 50)
     
     # Step 1: Data Processing
-    print("\n📋 Step 1: Data Processing")
-    print("-" * 30)
+    logging.info("\nStep 1: Data Processing")
+    logging.info("-" * 30)
     data_processor = DataProcessor()
     
     # Check if data already exists
     if os.path.exists('data/com.parquet'):
-        print("📁 Loading existing data...")
+        logging.info("Loading existing data...")
         data = data_processor.load_data()
     else:
-        print("🔄 Extracting data from database...")
+        logging.info("Extracting data from database...")
         data = data_processor.extract_data(start_date, end_date)
         data_processor.save_data(data)
     
     # Step 2: Factor Processing
-    print("\n📋 Step 2: Factor Processing")
-    print("-" * 30)
+    logging.info("\nStep 2: Factor Processing")
+    logging.info("-" * 30)
     factor_processor = FactorProcessor()
     
     # Check if factors already exist
     if os.path.exists('factors/factors.parquet'):
-        print("📁 Loading existing factors...")
+        logging.info("Loading existing factors...")
         factors = factor_processor.load_factors()
     else:
-        print("🔄 Computing factors...")
+        logging.info("Computing factors...")
         factors = factor_processor.compute_factors(data['com'])
-        print("🔄 Creating target variable...")
+        logging.info("Creating target variable...")
         factors = factor_processor.create_target(factors, data['com'])
         factor_processor.save_factors(factors)
     
     # Step 3: Model Training
-    print("\n📋 Step 3: Model Training")
-    print("-" * 30)
+    logging.info("\nStep 3: Model Training")
+    logging.info("-" * 30)
     model_trainer = ModelTrainer()
     model_trainer.train_models(factors, models)
     
     # Step 4: Evaluation
-    print("\n📋 Step 4: Model Evaluation")
-    print("-" * 30)
+    logging.info("\nStep 4: Model Evaluation")
+    logging.info("-" * 30)
     comparison_df = model_trainer.evaluate_models()
     
     # Print final results
-    print("\n🎉 Pipeline completed successfully!")
-    print("=" * 50)
-    print("\n📊 Final Results:")
-    print("-" * 20)
+    logging.info("Pipeline completed successfully!")
+    logging.info("=" * 50)
+    logging.info("\nFinal Results:")
+    logging.info("-" * 20)
     for _, row in comparison_df.iterrows():
-        print(f"{row['Model']:20} | MSE: {row['MSE']:.6f} | "
+        logging.info(f"{row['Model']:20} | MSE: {row['MSE']:.6f} | "
               f"MAE: {row['MAE']:.6f} | R²: {row['R²']:.4f}")
     
-    print(f"\n📁 Results saved in:")
-    print("   - models/results/: Performance metrics")
-    print("   - models/plots/: Visualization plots")
+    logging.info(f"\nResults saved in:")
+    logging.info("   - models/results/: Performance metrics")
+    logging.info("   - models/plots/: Visualization plots")
 
 def main():
     """Main function."""

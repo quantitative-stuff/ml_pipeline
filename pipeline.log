@@ -1,0 +1,143 @@
+2025-07-01 15:04:50,770 - INFO - Starting Stock Return Prediction Pipeline
+2025-07-01 15:04:50,771 - INFO - ==================================================
+2025-07-01 15:04:50,771 - INFO - 
+Step 1: Data Processing
+2025-07-01 15:04:50,771 - INFO - ------------------------------
+2025-07-01 15:04:50,771 - INFO - Loading existing data...
+2025-07-01 15:04:51,364 - INFO - 
+Step 2: Factor Processing
+2025-07-01 15:04:51,364 - INFO - ------------------------------
+2025-07-01 15:04:51,365 - INFO - Loading existing factors...
+2025-07-01 15:04:51,424 - INFO - 
+Step 3: Model Training
+2025-07-01 15:04:51,424 - INFO - ------------------------------
+2025-07-01 15:04:51,425 - INFO - Training models...
+2025-07-01 15:04:51,425 - INFO - Preparing data for training...
+2025-07-01 15:04:51,778 - INFO - Data prepared: 243838 samples, 8 features
+2025-07-01 15:04:51,778 - INFO -   Training linear_regression...
+2025-07-01 15:04:51,931 - INFO -     linear_regression - MSE: 0.002015, MAE: 0.035790, R©÷: 0.1987
+2025-07-01 15:04:51,933 - INFO -   Training gradient_boosting...
+2025-07-01 15:08:31,416 - INFO -     gradient_boosting - MSE: 0.001995, MAE: 0.035607, R©÷: 0.2068
+2025-07-01 15:08:31,418 - INFO -   Training dnn...
+2025-07-01 15:12:52,666 - INFO -     dnn - MSE: 0.002010, MAE: 0.035739, R©÷: 0.2007
+2025-07-01 15:12:52,668 - INFO - All models trained successfully
+2025-07-01 15:12:52,669 - INFO - 
+Step 4: Model Evaluation
+2025-07-01 15:12:52,669 - INFO - ------------------------------
+2025-07-01 15:12:52,669 - INFO - Evaluating models...
+2025-07-01 15:12:53,303 - INFO - Model evaluation completed
+2025-07-01 15:12:53,303 - INFO - Pipeline completed successfully!
+2025-07-01 15:12:53,303 - INFO - ==================================================
+2025-07-01 15:12:53,303 - INFO - 
+Final Results:
+2025-07-01 15:12:53,303 - INFO - --------------------
+2025-07-01 15:12:53,303 - INFO - linear_regression    | MSE: 0.002015 | MAE: 0.035790 | R©÷: 0.1987
+2025-07-01 15:12:53,304 - INFO - gradient_boosting    | MSE: 0.001995 | MAE: 0.035607 | R©÷: 0.2068
+2025-07-01 15:12:53,304 - INFO - dnn                  | MSE: 0.002010 | MAE: 0.035739 | R©÷: 0.2007
+2025-07-01 15:12:53,304 - INFO - 
+Results saved in:
+2025-07-01 15:12:53,304 - INFO -    - models/results/: Performance metrics
+2025-07-01 15:12:53,304 - INFO -    - models/plots/: Visualization plots
+2025-07-01 15:17:58,880 - INFO - Starting Stock Return Prediction Pipeline
+2025-07-01 15:17:58,880 - INFO - Data period: 2023-01-01 to 2024-12-31
+2025-07-01 15:17:58,880 - INFO - ==================================================
+2025-07-01 15:17:58,880 - INFO - 
+Step 1: Data Processing
+2025-07-01 15:17:58,880 - INFO - ------------------------------
+2025-07-01 15:17:58,880 - INFO - Loading existing data...
+2025-07-01 15:17:59,503 - INFO - 
+Step 2: Factor Processing
+2025-07-01 15:17:59,503 - INFO - ------------------------------
+2025-07-01 15:17:59,504 - INFO - Loading existing factors...
+2025-07-01 15:17:59,560 - INFO - 
+Step 3: Model Training
+2025-07-01 15:17:59,561 - INFO - ------------------------------
+2025-07-01 15:17:59,561 - INFO - Training models...
+2025-07-01 15:17:59,561 - INFO - Preparing data for training...
+2025-07-01 15:17:59,921 - INFO - Data prepared: 243838 samples, 8 features
+2025-07-01 15:17:59,921 - INFO - Number of features: 8
+2025-07-01 15:17:59,921 - INFO - Features: ['target_return_1m_mom5', 'target_return_1m_mom20', 'target_return_1m_vol5', 'target_return_1m_vol20', 'target_return_1m_mom5_vol5', 'target_return_1m_mom5_vol20', 'target_return_1m_mom20_vol5', 'target_return_1m_mom20_vol20']
+2025-07-01 15:17:59,921 - INFO -   Training linear_regression...
+2025-07-01 15:17:59,926 - INFO -     Fold 1: Train period: 2020-12-14 00:00:00 to 2021-04-26 00:00:00, Test period: 2021-04-27 00:00:00 to 2021-07-16 00:00:00
+2025-07-01 15:17:59,937 - INFO -     Fold 2: Train period: 2020-12-14 00:00:00 to 2021-07-16 00:00:00, Test period: 2021-07-19 00:00:00 to 2020-12-24 00:00:00
+2025-07-01 15:17:59,954 - INFO -     Fold 3: Train period: 2020-12-14 00:00:00 to 2020-12-24 00:00:00, Test period: 2020-12-28 00:00:00 to 2021-02-16 00:00:00
+2025-07-01 15:17:59,982 - INFO -     Fold 4: Train period: 2020-12-14 00:00:00 to 2021-02-16 00:00:00, Test period: 2021-02-17 00:00:00 to 2021-12-09 00:00:00
+2025-07-01 15:18:00,022 - INFO -     Fold 5: Train period: 2020-12-14 00:00:00 to 2021-12-09 00:00:00, Test period: 2021-12-10 00:00:00 to 2023-11-30 00:00:00
+2025-07-01 15:18:00,058 - INFO -     linear_regression - MSE: 0.002015, MAE: 0.035790, R©÷: 0.1987
+2025-07-01 15:18:00,059 - INFO -   Training gradient_boosting...
+2025-07-01 15:18:00,062 - INFO -     Fold 1: Train period: 2020-12-14 00:00:00 to 2021-04-26 00:00:00, Test period: 2021-04-27 00:00:00 to 2021-07-16 00:00:00
+2025-07-01 15:18:13,052 - INFO -     Fold 2: Train period: 2020-12-14 00:00:00 to 2021-07-16 00:00:00, Test period: 2021-07-19 00:00:00 to 2020-12-24 00:00:00
+2025-07-01 15:18:40,463 - INFO -     Fold 3: Train period: 2020-12-14 00:00:00 to 2020-12-24 00:00:00, Test period: 2020-12-28 00:00:00 to 2021-02-16 00:00:00
+2025-07-01 15:19:24,287 - INFO -     Fold 4: Train period: 2020-12-14 00:00:00 to 2021-02-16 00:00:00, Test period: 2021-02-17 00:00:00 to 2021-12-09 00:00:00
+2025-07-01 15:20:23,962 - INFO -     Fold 5: Train period: 2020-12-14 00:00:00 to 2021-12-09 00:00:00, Test period: 2021-12-10 00:00:00 to 2023-11-30 00:00:00
+2025-07-01 15:21:40,340 - INFO -     gradient_boosting - MSE: 0.001995, MAE: 0.035607, R©÷: 0.2068
+2025-07-01 15:21:40,342 - INFO -   Training dnn...
+2025-07-01 15:21:40,344 - INFO -     Fold 1: Train period: 2020-12-14 00:00:00 to 2021-04-26 00:00:00, Test period: 2021-04-27 00:00:00 to 2021-07-16 00:00:00
+2025-07-01 15:21:59,081 - INFO -     Fold 2: Train period: 2020-12-14 00:00:00 to 2021-07-16 00:00:00, Test period: 2021-07-19 00:00:00 to 2020-12-24 00:00:00
+2025-07-01 15:22:33,952 - INFO -     Fold 3: Train period: 2020-12-14 00:00:00 to 2020-12-24 00:00:00, Test period: 2020-12-28 00:00:00 to 2021-02-16 00:00:00
+2025-07-01 15:23:26,980 - INFO -     Fold 4: Train period: 2020-12-14 00:00:00 to 2021-02-16 00:00:00, Test period: 2021-02-17 00:00:00 to 2021-12-09 00:00:00
+2025-07-01 15:24:35,755 - INFO -     Fold 5: Train period: 2020-12-14 00:00:00 to 2021-12-09 00:00:00, Test period: 2021-12-10 00:00:00 to 2023-11-30 00:00:00
+2025-07-01 15:26:04,103 - INFO -     dnn - MSE: 0.002000, MAE: 0.035657, R©÷: 0.2048
+2025-07-01 15:26:04,104 - INFO - All models trained successfully
+2025-07-01 15:26:04,104 - INFO - 
+Step 4: Model Evaluation
+2025-07-01 15:26:04,104 - INFO - ------------------------------
+2025-07-01 15:26:04,104 - INFO - Evaluating models...
+2025-07-01 15:26:28,731 - INFO - Starting Stock Return Prediction Pipeline
+2025-07-01 15:26:28,731 - INFO - Data period: 2023-01-01 to 2024-12-31
+2025-07-01 15:26:28,731 - INFO - ==================================================
+2025-07-01 15:26:28,731 - INFO - 
+Step 1: Data Processing
+2025-07-01 15:26:28,731 - INFO - ------------------------------
+2025-07-01 15:26:28,731 - INFO - Loading existing data...
+2025-07-01 15:26:29,360 - INFO - 
+Step 2: Factor Processing
+2025-07-01 15:26:29,360 - INFO - ------------------------------
+2025-07-01 15:26:29,361 - INFO - Loading existing factors...
+2025-07-01 15:26:29,420 - INFO - 
+Step 3: Model Training
+2025-07-01 15:26:29,420 - INFO - ------------------------------
+2025-07-01 15:26:29,421 - INFO - Training models...
+2025-07-01 15:26:29,421 - INFO - Preparing data for training...
+2025-07-01 15:26:29,788 - INFO - Data prepared: 243838 samples, 8 features
+2025-07-01 15:26:29,788 - INFO - Number of features: 8
+2025-07-01 15:26:29,788 - INFO - Features: ['target_return_1m_mom5', 'target_return_1m_mom20', 'target_return_1m_vol5', 'target_return_1m_vol20', 'target_return_1m_mom5_vol5', 'target_return_1m_mom5_vol20', 'target_return_1m_mom20_vol5', 'target_return_1m_mom20_vol20']
+2025-07-01 15:26:29,788 - INFO -   Training linear_regression...
+2025-07-01 15:26:29,792 - INFO -     Fold 1: Train period: 2020-12-14 00:00:00 to 2021-04-26 00:00:00, Test period: 2021-04-27 00:00:00 to 2021-07-16 00:00:00
+2025-07-01 15:26:29,802 - INFO -     Fold 2: Train period: 2020-12-14 00:00:00 to 2021-07-16 00:00:00, Test period: 2021-07-19 00:00:00 to 2020-12-24 00:00:00
+2025-07-01 15:26:29,820 - INFO -     Fold 3: Train period: 2020-12-14 00:00:00 to 2020-12-24 00:00:00, Test period: 2020-12-28 00:00:00 to 2021-02-16 00:00:00
+2025-07-01 15:26:29,849 - INFO -     Fold 4: Train period: 2020-12-14 00:00:00 to 2021-02-16 00:00:00, Test period: 2021-02-17 00:00:00 to 2021-12-09 00:00:00
+2025-07-01 15:26:29,886 - INFO -     Fold 5: Train period: 2020-12-14 00:00:00 to 2021-12-09 00:00:00, Test period: 2021-12-10 00:00:00 to 2023-11-30 00:00:00
+2025-07-01 15:26:29,923 - INFO -     linear_regression - MSE: 0.002015, MAE: 0.035790, R©÷: 0.1987
+2025-07-01 15:26:29,925 - INFO -   Training gradient_boosting...
+2025-07-01 15:26:29,928 - INFO -     Fold 1: Train period: 2020-12-14 00:00:00 to 2021-04-26 00:00:00, Test period: 2021-04-27 00:00:00 to 2021-07-16 00:00:00
+2025-07-01 15:26:43,091 - INFO -     Fold 2: Train period: 2020-12-14 00:00:00 to 2021-07-16 00:00:00, Test period: 2021-07-19 00:00:00 to 2020-12-24 00:00:00
+2025-07-01 15:27:10,966 - INFO -     Fold 3: Train period: 2020-12-14 00:00:00 to 2020-12-24 00:00:00, Test period: 2020-12-28 00:00:00 to 2021-02-16 00:00:00
+2025-07-01 15:27:54,398 - INFO -     Fold 4: Train period: 2020-12-14 00:00:00 to 2021-02-16 00:00:00, Test period: 2021-02-17 00:00:00 to 2021-12-09 00:00:00
+2025-07-01 15:28:54,013 - INFO -     Fold 5: Train period: 2020-12-14 00:00:00 to 2021-12-09 00:00:00, Test period: 2021-12-10 00:00:00 to 2023-11-30 00:00:00
+2025-07-01 15:30:09,764 - INFO -     gradient_boosting - MSE: 0.001995, MAE: 0.035607, R©÷: 0.2068
+2025-07-01 15:30:09,766 - INFO -   Training dnn...
+2025-07-01 15:30:09,769 - INFO -     Fold 1: Train period: 2020-12-14 00:00:00 to 2021-04-26 00:00:00, Test period: 2021-04-27 00:00:00 to 2021-07-16 00:00:00
+2025-07-01 15:30:28,194 - INFO -     Fold 2: Train period: 2020-12-14 00:00:00 to 2021-07-16 00:00:00, Test period: 2021-07-19 00:00:00 to 2020-12-24 00:00:00
+2025-07-01 15:31:02,508 - INFO -     Fold 3: Train period: 2020-12-14 00:00:00 to 2020-12-24 00:00:00, Test period: 2020-12-28 00:00:00 to 2021-02-16 00:00:00
+2025-07-01 15:31:53,510 - INFO -     Fold 4: Train period: 2020-12-14 00:00:00 to 2021-02-16 00:00:00, Test period: 2021-02-17 00:00:00 to 2021-12-09 00:00:00
+2025-07-01 15:33:05,505 - INFO -     Fold 5: Train period: 2020-12-14 00:00:00 to 2021-12-09 00:00:00, Test period: 2021-12-10 00:00:00 to 2023-11-30 00:00:00
+2025-07-01 15:34:35,342 - INFO -     dnn - MSE: 0.001995, MAE: 0.035609, R©÷: 0.2066
+2025-07-01 15:34:35,343 - INFO - All models trained successfully
+2025-07-01 15:34:35,343 - INFO - 
+Step 4: Model Evaluation
+2025-07-01 15:34:35,343 - INFO - ------------------------------
+2025-07-01 15:34:35,343 - INFO - Evaluating models...
+2025-07-01 15:34:36,006 - INFO - Model evaluation completed
+2025-07-01 15:34:36,006 - INFO - Pipeline completed successfully!
+2025-07-01 15:34:36,006 - INFO - ==================================================
+2025-07-01 15:34:36,006 - INFO - 
+Final Results:
+2025-07-01 15:34:36,006 - INFO - --------------------
+2025-07-01 15:34:36,006 - INFO - linear_regression    | MSE: 0.002015 | MAE: 0.035790 | R©÷: 0.1987
+2025-07-01 15:34:36,007 - INFO - gradient_boosting    | MSE: 0.001995 | MAE: 0.035607 | R©÷: 0.2068
+2025-07-01 15:34:36,007 - INFO - dnn                  | MSE: 0.001995 | MAE: 0.035609 | R©÷: 0.2066
+2025-07-01 15:34:36,007 - INFO - 
+Results saved in:
+2025-07-01 15:34:36,007 - INFO -    - models/results/: Performance metrics
+2025-07-01 15:34:36,007 - INFO -    - models/plots/: Visualization plots

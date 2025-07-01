@@ -9,6 +9,7 @@ import polars as pl
 import pandas as pd
 from typing import Dict, Tuple
 import os
+import logging
 
 from data_loader import get_data
 
@@ -21,7 +22,7 @@ class DataProcessor:
     
     def extract_data(self, start_date: str, end_date: str) -> Dict[str, pl.DataFrame]:
         """Extract data from database and convert to Polars."""
-        print("🔄 Extracting data from database...")
+        logging.info("Extracting data from database...")
         
         data_com, data_cia, data_ssc, data_nfr_ifrs, data_nfs_ifrs, data_con = get_data(
             start_date, end_date
@@ -37,14 +38,14 @@ class DataProcessor:
             'con': pl.from_pandas(data_con)
         }
         
-        print(f"✅ Data extracted: {len(data_com)} records")
+        logging.info(f"Data extracted: {len(data_com)} records")
         return data
     
     def save_data(self, data: Dict[str, pl.DataFrame]):
         """Save extracted data to files."""
         for name, df in data.items():
             df.write_parquet(os.path.join(self.output_dir, f'{name}.parquet'))
-        print(f"✅ Data saved to {self.output_dir}")
+        logging.info(f"Data saved to {self.output_dir}")
     
     def load_data(self) -> Dict[str, pl.DataFrame]:
         """Load data from saved files."""

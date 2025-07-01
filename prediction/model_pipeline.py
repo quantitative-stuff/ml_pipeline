@@ -2,6 +2,7 @@ from .data_loader import load_factor_data
 from .feature_engineering import create_features
 from .ml_models import get_ml_model
 from .dl_models import get_dl_model
+from pipeline.factor_processor import FactorProcessor  # Import FactorProcessor
 import polars as pl
 import numpy as np
 import torch
@@ -23,13 +24,13 @@ class ModelPipeline:
         # Create features
         data = create_features(data)
 
-        # For simplicity, we'll use a placeholder for the target variable
-        # In a real scenario, this would be the future return
-        data = data.with_columns(pl.lit(np.random.rand(len(data))).alias("future_return"))
+        # Create target variable
+        factor_processor = FactorProcessor()
+        data = factor_processor.create_target(data, data)  # Using data for both factors and raw_data for simplicity
 
         # Split data into features and target
-        features = data.drop(['ticker', 'date', 'future_return'])
-        target = data['future_return']
+        features = data.drop(['ticker', 'date', 'target_return_1m'])
+        target = data['target_return_1m']
 
         # Train model
         if self.model_type == 'ml':

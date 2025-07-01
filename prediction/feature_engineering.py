@@ -16,7 +16,7 @@ def create_features(data: pl.DataFrame) -> pl.DataFrame:
 
     # Momentum features
     for col in data.columns:
-        if col not in ['Symbol', 'Dates']:
+        if col not in ['Symbol', 'Dates'] and data[col].dtype in [pl.Float32, pl.Float64, pl.Int32, pl.Int64]:
             data = data.with_columns(
                 pl.col(col).rolling_mean(window_size=5).over(['Symbol']).alias(f'{col}_mom5')
             )
@@ -26,7 +26,7 @@ def create_features(data: pl.DataFrame) -> pl.DataFrame:
 
     # Volatility features
     for col in data.columns:
-        if col not in ['Symbol', 'Dates']:
+        if col not in ['Symbol', 'Dates'] and data[col].dtype in [pl.Float32, pl.Float64, pl.Int32, pl.Int64]:
             data = data.with_columns(
                 pl.col(col).rolling_std(window_size=5).over(['Symbol']).alias(f'{col}_vol5')
             )

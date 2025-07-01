@@ -1,23 +1,27 @@
 # stock machine learning portfolio pipeline
 ## data source 
 - use DB to get stock and index data
-- mostly they are KOSPI stocks
+- in database,  dates, symbol, name columns are common columns for all the tables and the rest features are different by each table
+- sometimes it is necessary to pivot or unstack to use original database
+- however index data is in timeseries data format, index is datetime and columns is the name of the indicies
+
 
 ## preprocessing
 - bring raw data from database
 - create raw factors for stocks
-- preprocessing those factor data
+- initially there are 3 groups of factors and each group calculates factors slightly differently but need to be the same in the end
+- preprocessing those factor data like normalizing, winsorization
 
 
 ## learning
-- 1month future return of stocks
-- NO time series prediction. DO crosss sectional prediction
+- create 1month future returns of stocks to use it as target to train prediction models
+- NO time series prediction. DO crosss sectional prediction which means input data should have multi index , datetime and symbol.
 - do feature engineering to get better result
-- WARNING Lookahead bias
+- WARNING split train and test set carefully to prevent Lookahead bias
 
 ## models
-- use simple machine learning models to deep learning models
-- but deep learning models should be simple and not big because of computing resources
+- use simple machine learning models such as regression models, lasso and ridge to deep learning models such as dnn and simple transformer model
+- but deep learning models should be simple and not big because of limited computing resources
 
 
 ## portfolio

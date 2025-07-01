@@ -13,6 +13,7 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import matplotlib.pyplot as plt
 import os
 from typing import Dict, List, Tuple
+import logging
 
 from prediction.feature_engineering import create_features
 from prediction.ml_models import get_ml_model
@@ -30,9 +31,9 @@ class ModelTrainer:
         self.results = {}
         self.trained_models = {}
     
-    def prepare_data(self, factors: pl.DataFrame) -> Tuple[np.ndarray, np.ndarray, List[str]]:
+    def prepare_data(self, factors: pl.DataFrame) -> Tuple[pl.DataFrame, np.ndarray, np.ndarray, List[str]]:
         """Prepare data for training."""
-        print("🔄 Preparing data for training...")
+        logging.info("Preparing data for training...")
         
         # Engineer features
         features = create_features(factors)
@@ -40,17 +41,19 @@ class ModelTrainer:
         
         # Split features and target
         feature_cols = [col for col in features.columns 
-                       if col not in ['Symbol', 'Dates', 'target_return_1m']]
+                       if col not in ['Symbol', 'Dates', 'target_return_1m'] and features[col].dtype in [pl.Float32, pl.Float64, pl.Int32, pl.Int64]]
         
         X = features.select(feature_cols).to_numpy()
         y = features.select('target_return_1m').to_numpy().flatten()
         
-        print(f"✅ Data prepared: {X.shape[0]} samples, {X.shape[1]} features")
-        return X, y, feature_cols
-    
-    def train_single_model(self, model_name: str, X: np.ndarray, y: np.ndarray) -> Dict:
+        logging.info(f"Data prepared: {X.shape[0]} samples, {X.shape[1]} features")
+        logging.info(f"Number of features: {len(feature_cols)}")
+        logging.info(f"Features: {feature_cols}")
+        return features, X, y, feature_cols
+
+    def train_single_model(self, model_name: str, features: pl.DataFrame, X: np.ndarray, y: np.ndarray) -> Dict:
         """Train a single model with cross-validation."""
-        print(f"  Training {model_name}...")
+        logging.info(f"  Training {model_name}...")
         
         model_type = 'dl' if model_name in ['dnn', 'residual', 'transformer'] else 'ml'
         
@@ -61,6 +64,10 @@ class ModelTrainer:
         for fold, (train_idx, val_idx) in enumerate(tscv.split(X)):
             X_train, X_val = X[train_idx], X[val_idx]
             y_train, y_val = y[train_idx], y[val_idx]
+            
+            train_dates = features.item(train_idx[0], 'Dates'), features.item(train_idx[-1], 'Dates')
+            val_dates = features.item(val_idx[0], 'Dates'), features.item(val_idx[-1], 'Dates')
+            logging.info(f"    Fold {fold+1}: Train period: {train_dates[0]} to {train_dates[1]}, Test period: {val_dates[0]} to {val_dates[1]}")
             
             if model_type == 'ml':
                 model = get_ml_model(model_name)
@@ -120,27 +127,27 @@ class ModelTrainer:
             'mean_r2': np.mean([s['r2'] for s in cv_scores])
         }
         
-        print(f"    {model_name} - MSE: {results['mean_mse']:.6f}, "
+        logging.info(f"    {model_name} - MSE: {results['mean_mse']:.6f}, "
               f"MAE: {results['mean_mae']:.6f}, R²: {results['mean_r2']:.4f}")
         
         return results
     
     def train_models(self, factors: pl.DataFrame, models: List[str]):
         """Train multiple models."""
-        print("🔄 Training models...")
+        logging.info("Training models...")
         
         # Prepare data
-        X, y, feature_cols = self.prepare_data(factors)
-        
+        features, X, y, feature_cols = self.prepare_data(factors)
+        # print(X)
         # Train each model
         for model_name in models:
-            self.results[model_name] = self.train_single_model(model_name, X, y)
+            self.results[model_name] = self.train_single_model(model_name, features, X, y)
         
-        print("✅ All models trained successfully")
+        logging.info("All models trained successfully")
     
     def evaluate_models(self):
         """Evaluate and compare model performance."""
-        print("🔄 Evaluating models...")
+        logging.info("Evaluating models...")
         
         # Create comparison DataFrame
         comparison_data = []
@@ -160,7 +167,7 @@ class ModelTrainer:
         # Create visualization
         self._create_comparison_plot(comparison_df)
         
-        print("✅ Model evaluation completed")
+        logging.info("Model evaluation completed")
         return comparison_df
     
     def _create_comparison_plot(self, comparison_df: pd.DataFrame):

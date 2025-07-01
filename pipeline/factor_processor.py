@@ -10,6 +10,7 @@ import numpy as np
 from typing import Optional
 import os
 from datetime import datetime, timedelta
+import logging
 
 from factor_creation.factor_pipeline import FactorPipeline
 
@@ -23,7 +24,7 @@ class FactorProcessor:
     
     def compute_factors(self, data: pl.DataFrame) -> pl.DataFrame:
         """Compute factors from raw data."""
-        print("🔄 Computing factors...")
+        logging.info("Computing factors...")
         
         # For simplicity, use same data for historical calculations
         # In practice, you'd need actual historical data
@@ -40,7 +41,7 @@ class FactorProcessor:
         exclude_cols = ['Symbol', 'Dates']
         factors = self.factor_pipeline.standardize_factors(factors, exclude_cols)
         
-        print(f"✅ Factors computed: {factors.shape[1]} features")
+        logging.info(f"Factors computed: {factors.shape[1]} features")
         return factors
     
     def create_target(self, factors: pl.DataFrame, raw_data: pl.DataFrame) -> pl.DataFrame:
@@ -51,7 +52,7 @@ class FactorProcessor:
             factors: DataFrame with computed factors
             raw_data: Original raw data containing price information
         """
-        print("🔄 Creating target variable (1-month forward return)...")
+        logging.info("Creating target variable (1-month forward return)...")
         
         # Sort by symbol and date
         factors = factors.sort(['Symbol', 'Dates'])
@@ -61,10 +62,10 @@ class FactorProcessor:
         adj_price_col = self.factor_pipeline.factor_dict['adjPrice']
         
         if adj_price_col not in raw_data.columns:
-            raise ValueError(f"❌ Error: {adj_price_col} (adjusted price) not found in data. Cannot calculate forward returns without price data.")
+            raise ValueError(f"Error: {adj_price_col} (adjusted price) not found in data. Cannot calculate forward returns without price data.")
         
         # Calculate 1-month forward returns
-        print(f"  Using price column: {adj_price_col}")
+        logging.info(f"  Using price column: {adj_price_col}")
         
         # Create a copy of raw_data with price information
         price_data = raw_data.select(['Symbol', 'Dates', adj_price_col])
@@ -92,17 +93,17 @@ class FactorProcessor:
         # Remove rows where we don't have future price data (last month of data)
         factors = factors.drop_nulls(subset=['target_return_1m'])
         
-        print(f"✅ Target variable created: {len(factors)} samples with valid forward returns")
-        print(f"  Return statistics: mean={factors['target_return_1m'].mean():.4f}, "
+        logging.info(f"Target variable created: {len(factors)} samples with valid forward returns")
+        logging.info(f"  Return statistics: mean={factors['target_return_1m'].mean():.4f}, "
               f"std={factors['target_return_1m'].std():.4f}")
-        print(f"  Return range: {factors['target_return_1m'].min():.4f} to {factors['target_return_1m'].max():.4f}")
+        logging.info(f"  Return range: {factors['target_return_1m'].min():.4f} to {factors['target_return_1m'].max():.4f}")
         
         return factors
     
     def save_factors(self, factors: pl.DataFrame):
         """Save computed factors."""
         factors.write_parquet(os.path.join(self.output_dir, 'factors.parquet'))
-        print(f"✅ Factors saved to {self.output_dir}")
+        logging.info(f"Factors saved to {self.output_dir}")
     
     def load_factors(self) -> pl.DataFrame:
         """Load computed factors."""
